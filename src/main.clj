@@ -4,7 +4,7 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.test :as test]
             [clojure.data.json :as json]
-            [clojure.java.io :as io]))
+            libs))
 
 ;; Defining function response that sent status, body and headers
 (defn response [status body & {:as headers}]
@@ -12,16 +12,6 @@
 
 ;; Defining ok function as as partial of response
 (def ok       (partial response 200))
-
-;; reading cities list file
-(defn read-cities []
-  (json/read-str 
-    (slurp (io/resource "data/city_list.json")) :key-fn keyword))
-
-;; reading weather list file
-(defn read-weather []
-  (json/read-str
-   (slurp (io/resource "data/weather_list.json")) :key-fn keyword))
 
 ;; filter function
 (defn filter-all [value field data]
@@ -37,7 +27,7 @@
   {:name :respond-cities
    :enter
    (fn [context]
-     (let [body (read-cities)
+     (let [body (libs/read-cities)
            json-response (json/write-str body)
            response (ok json-response)]
        (assoc context :response response)))})
@@ -61,7 +51,7 @@
    :enter
    (fn [context]
      (if-let [city-id (read-string (:city-id (:path-params (:request context))))]
-       (if-let [city (first (filter #(= (:id %) city-id) (read-cities)))]
+       (if-let [city (first (filter #(= (:id %) city-id) (libs/read-cities)))]
         (let [json-response (json/write-str city)
               response (ok json-response)]
           (assoc context :response response))
