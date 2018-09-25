@@ -29,4 +29,4 @@ The server will run on `http://localhost:8890`
 ## API
 
  - `http://localhost:8890/cities` - List of cities
- - `http://localhost:8890/cities/{some_id}` - One city (Not working yet :/)
+ - `http://localhost:8890/cities/{some_id}` - One city

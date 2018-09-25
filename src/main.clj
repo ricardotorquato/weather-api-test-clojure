@@ -56,15 +56,12 @@
 ;; and we just want to get the first item
 ;; as the failure of the both if-let we return the context itself
 ;; by default it comes with 404 status code of not-found, so we don't need to worry about saying that
-;;
-;; It's not working yet because of the city-id inside the annonymous function
-;; If we change to a value, it works :/
 (def respond-city
   {:name :respond-city
    :enter
    (fn [context]
-     (if-let [city-id (:city-id (:path-params (:request context)))]
-       (if-let [city (first (filter #(= (:id %) city-id) (main/read-cities)))]
+     (if-let [city-id (read-string (:city-id (:path-params (:request context))))]
+       (if-let [city (first (filter #(= (:id %) city-id) (read-cities)))]
         (let [json-response (json/write-str city)
               response (ok json-response)]
           (assoc context :response response))
