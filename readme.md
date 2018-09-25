@@ -9,3 +9,24 @@ The idea is provide:
 - List of cities with avaiable weather information
 - Information of a single city with its weather information
 - Filtered information by date periods about a single city with its wather information
+
+## Environment configuration
+I am using `http://boot-clj.com/` to run this project
+
+## Running
+In the terminal you can run by doing `boot repl` and inside the repl
+
+```
+(require 'main)
+```
+
+```
+(main/start)
+```
+
+The server will run on `http://localhost:8890`
+
+## API
+
+ - `http://localhost:8890/cities` - List of cities
+ - `http://localhost:8890/cities/{some_id}` - One city (Not working yet :/)
