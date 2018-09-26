@@ -30,3 +30,4 @@ The server will run on `http://localhost:8890`
 
  - `http://localhost:8890/cities` - List of cities
  - `http://localhost:8890/cities/{some_id}` - One city
+ - `http://localhost:8890/cities/{some_id}?with-weather=1` - One city with its weather information
