@@ -5,4 +5,11 @@
   {:status status :body body :headers headers})
 
 ;; Defining ok function as as partial of response
-(def ok       (partial response 200))
+(def ok (partial response 200))
+
+;; return a path key from context
+(defn path [key context]
+  (key (:path-params (:request context))))
+
+(defn query [key context]
+  (key (:query-params (:request context))))
