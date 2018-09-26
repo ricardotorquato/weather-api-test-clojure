@@ -8,8 +8,8 @@
 ;; defining our routes
 (def routes
   (route/expand-routes
-   #{["/cities"          :get {:name :cities-getAll :enter (:getAll controllers/cities)}]
-     ["/cities/:city-id" :get {:name :cities-getOne :enter (:getOne controllers/cities)}]}))
+   #{["/cities"          :get {:name :cities-getAll :enter (:get-all controllers/cities)}]
+     ["/cities/:city-id" :get {:name :cities-getOne :enter (:get-one controllers/cities)}]}))
 
 ;; defining our service-map
 (def service-map

@@ -6,10 +6,13 @@
   ([]
    (json/read-str
     (slurp (io/resource "data/city_list.json")) :key-fn keyword))
-  ([id]
-   (first (filter #(= (:id %) id) (cities)))))
+  ([key value]
+   (first (filter #(= (key %) value) (cities)))))
 
 ;; reading weather list file
-(defn weather []
-  (json/read-str
-   (slurp (io/resource "data/weather_list.json")) :key-fn keyword))
+(defn weather 
+  ([]
+    (json/read-str
+      (slurp (io/resource "data/weather_list.json")) :key-fn keyword))
+  ([key value]
+    (first (filter #(= (key %) value) (weather)))))
