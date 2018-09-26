@@ -9,7 +9,7 @@
 (defn get-city-with-weather [city-id]
   (let [city    (get-city city-id)
         weather (:data (libs/weather :cityId city-id))]
-    (assoc city :weather weather)))
+    (if (nil? city) nil (assoc city :weather weather))))
 
 (defn get-cities-that-have-weather []
   (let [city-ids (map #(:cityId %) (libs/weather))]
