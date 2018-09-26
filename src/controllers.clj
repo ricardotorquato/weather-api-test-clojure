@@ -1,5 +1,6 @@
 (ns controllers
   (:require [clojure.data.json :as json]
+            [clojure.string :as string]
             libs
             http
             dates))
@@ -7,9 +8,12 @@
 (defn get-city [city-id]
   (libs/cities :id city-id))
 
-(defn get-city-with-weather [city-id]
-  (let [city    (get-city city-id)
-        weather (:data (libs/weather :cityId city-id))]
+(defn get-city-with-weather [city-id date-start date-end]
+  (let [city         (get-city city-id)
+        weather-full (:data (libs/weather :cityId city-id))
+        weather (if (not (and (nil? date-start) (nil? date-end)))
+                  (filter #(and (>= (:dt %) date-start) (<= (:dt %) date-end)) weather-full)
+                  weather-full)]
     (if (nil? city) nil (assoc city :weather weather))))
 
 (defn get-cities-that-have-weather []
@@ -24,9 +28,11 @@
    :get-one (fn [context]
               (if-let [city-id (read-string (http/path :city-id context))]
                 (if (= (read-string (or (http/query :with-weather context) "0")) 1)
-                  (if-let [city-with-weather (get-city-with-weather city-id)]
-                    (assoc context :response (http/ok (json/write-str city-with-weather)))
-                    context)
+                  (let [date-start (dates/to-timestamp (http/query :date-start context))
+                        date-end   (dates/to-timestamp (string/join (concat (http/query :date-end context) "-23-59-59")))]
+                    (if-let [city-with-weather (get-city-with-weather city-id date-start date-end)]
+                      (assoc context :response (http/ok (json/write-str city-with-weather)))
+                      context))
                   (if-let [city (get-city city-id)]
                     (assoc context :response (http/ok (json/write-str city)))
                     context))

@@ -32,3 +32,5 @@ The server will run on `http://localhost:8890`
  - `http://localhost:8890/cities?that-has-weather=1` - List of cities that has weather
  - `http://localhost:8890/cities/{some_id}` - One city
  - `http://localhost:8890/cities/{some_id}?with-weather=1` - One city with its weather information
+ - `http://localhost:8890/cities/{some_id}?with-weather=1&date-start={yyyy-mm-dd}&date-end={yyyy-mm-dd}` - One city with its weather information filtered by date
+ 
